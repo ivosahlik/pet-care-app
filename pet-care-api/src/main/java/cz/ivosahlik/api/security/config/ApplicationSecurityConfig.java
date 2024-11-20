@@ -33,20 +33,22 @@ public class ApplicationSecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
 
     private static final List<String> SECURED_URLS = List.of(
-           "/api/v1/appointments/book-appointment",
+            "/api/v1/appointments/book-appointment",
             "/api/v1/reviews/**");
 
     @Bean
     public AuthTokenFilter authTokenFilter() {
         return new AuthTokenFilter();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return  authConfig.getAuthenticationManager();
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean
