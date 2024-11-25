@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.String.*;
+
 @Entity
 @Getter
 @Setter
@@ -68,7 +70,7 @@ public class Appointment {
     }
 
     public void setAppointmentNo() {
-        this.appointmentNo = String.valueOf(new Random().nextLong()).substring(1, 11);
+        this.appointmentNo = valueOf(new Random().nextLong()).substring(1, 11);
     }
 
 }
