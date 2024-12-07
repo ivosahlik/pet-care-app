@@ -21,7 +21,7 @@ const VeterinarianListing = () => {
         setAllVeterinarians(data.data);
         setTimeout(() => {
           setIsLoading(false);
-        }, 1000);
+        }, 100);
       })
       .catch((error) => {
         setErrorMessage(error.response.data.message);

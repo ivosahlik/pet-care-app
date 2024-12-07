@@ -8,7 +8,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>cz.ivosahlik</groupId>
 	<artifactId>pet-care-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pet-care-api</name>
@@ -111,7 +110,21 @@
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>cz.ivosahlik.api.Application</mainClass>
+					<outputDirectory>${release.dir}</outputDirectory>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<groupId>org.apache.maven.plugins</groupId>
