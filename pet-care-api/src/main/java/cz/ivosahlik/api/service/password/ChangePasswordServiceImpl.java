@@ -20,8 +20,7 @@ public class ChangePasswordServiceImpl implements ChangePasswordService {
     @Override
     public void changePassword(Long userId, ChangePasswordRequest request ) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-         if(Objects.equals(request.getCurrentPassword(), "")
-                 || Objects.equals(request.getNewPassword(), "")) {
+         if(Objects.equals(request.getCurrentPassword(), "") || Objects.equals(request.getNewPassword(), "")) {
              throw new IllegalArgumentException("All fields are required");
          }
          if(!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {

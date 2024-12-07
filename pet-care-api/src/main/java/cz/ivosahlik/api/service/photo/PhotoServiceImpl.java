@@ -59,15 +59,15 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public Photo updatePhoto(Long id, MultipartFile file) throws SQLException, IOException {
         Photo photo = getPhotoById(id);
-        if (photo != null) {
-            byte[] photoBytes = file.getBytes();
-            Blob photoBlob = new SerialBlob(photoBytes);
-            photo.setImage(photoBlob);
-            photo.setFileType(file.getContentType());
-            photo.setFileName(file.getOriginalFilename());
-            return photoRepository.save(photo);
+        if (photo == null) {
+            throw new ResourceNotFoundException(FeedBackMessage.RESOURCE_NOT_FOUND);
         }
-        throw new ResourceNotFoundException(FeedBackMessage.RESOURCE_NOT_FOUND);
+        byte[] photoBytes = file.getBytes();
+        Blob photoBlob = new SerialBlob(photoBytes);
+        photo.setImage(photoBlob);
+        photo.setFileType(file.getContentType());
+        photo.setFileName(file.getOriginalFilename());
+        return photoRepository.save(photo);
     }
 
     @Override
