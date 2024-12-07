@@ -5,7 +5,7 @@ import cz.ivosahlik.api.model.VerificationToken;
 import cz.ivosahlik.api.repository.UserRepository;
 import cz.ivosahlik.api.request.VerificationTokenRequest;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.token.IVerificationTokenService;
+import cz.ivosahlik.api.service.token.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +38,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping(TOKEN_VERIFICATION)
 public class VerificationTokenController {
 
-    private final IVerificationTokenService verificationTokenService;
+    private final VerificationTokenService verificationTokenService;
     private final UserRepository userRepository;
 
     @GetMapping(VALIDATE_TOKEN)

@@ -6,7 +6,7 @@ import cz.ivosahlik.api.exception.ResourceNotFoundException;
 import cz.ivosahlik.api.model.Review;
 import cz.ivosahlik.api.request.ReviewUpdateRequest;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.review.IReviewService;
+import cz.ivosahlik.api.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -42,7 +42,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping(REVIEWS)
 @RestController
 public class ReviewController {
-    private final IReviewService reviewService;
+    private final ReviewService reviewService;
     private final ModelMapper modelMapper;
 
     @PostMapping(SUBMIT_REVIEW)

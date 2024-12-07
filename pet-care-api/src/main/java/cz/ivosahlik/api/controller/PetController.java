@@ -3,8 +3,7 @@ package cz.ivosahlik.api.controller;
 import cz.ivosahlik.api.exception.ResourceNotFoundException;
 import cz.ivosahlik.api.model.Pet;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.pet.IPetService;
-import cz.ivosahlik.api.utils.FeedBackMessage;
+import cz.ivosahlik.api.service.pet.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +35,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping(PETS)
 @RequiredArgsConstructor
 public class PetController {
-    private final IPetService petService;
+    private final PetService petService;
 
     @PutMapping(SAVE_PETS_FOR_APPOINTMENT)
     public ResponseEntity<ApiResponse> savePets(@RequestParam Long appointmentId, @RequestBody List<Pet> pets) {

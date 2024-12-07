@@ -1,7 +1,6 @@
 package cz.ivosahlik.api.controller;
 
 import cz.ivosahlik.api.model.Role;
-import cz.ivosahlik.api.service.role.IRoleService;
 import cz.ivosahlik.api.service.role.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
 public class RoleController {
-    private final IRoleService roleService;
+    private final RoleService roleService;
 
     @GetMapping("/all-roles")
     public List<Role> getAllRoles() {

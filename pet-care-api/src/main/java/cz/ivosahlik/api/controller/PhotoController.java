@@ -3,7 +3,7 @@ package cz.ivosahlik.api.controller;
 import cz.ivosahlik.api.exception.ResourceNotFoundException;
 import cz.ivosahlik.api.model.Photo;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.photo.IPhotoService;
+import cz.ivosahlik.api.service.photo.PhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,7 +37,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping(PHOTOS)
 @RequiredArgsConstructor
 public class PhotoController {
-    private final IPhotoService photoService;
+    private final PhotoService photoService;
 
     @PostMapping(UPLOAD_PHOTO)
     public ResponseEntity<ApiResponse> savePhoto(

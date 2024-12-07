@@ -8,7 +8,7 @@ import cz.ivosahlik.api.event.PasswordResetEvent;
 import cz.ivosahlik.api.event.RegistrationCompleteEvent;
 import cz.ivosahlik.api.model.Appointment;
 import cz.ivosahlik.api.model.User;
-import cz.ivosahlik.api.service.token.IVerificationTokenService;
+import cz.ivosahlik.api.service.token.VerificationTokenService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NotificationEventListener {
     private final EmailService emailService;
-    private final IVerificationTokenService tokenService;
+    private final VerificationTokenService tokenService;
 
     @Value("${frontend.base.url}")
     private String frontendBaseUrl;

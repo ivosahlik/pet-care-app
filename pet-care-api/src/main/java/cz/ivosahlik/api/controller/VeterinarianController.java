@@ -3,7 +3,7 @@ package cz.ivosahlik.api.controller;
 import cz.ivosahlik.api.dto.UserDto;
 import cz.ivosahlik.api.exception.ResourceNotFoundException;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.veterinarian.IVeterinarianService;
+import cz.ivosahlik.api.service.veterinarian.VeterinarianService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +33,7 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping(VETERINARIANS)
 @RequiredArgsConstructor
 public class VeterinarianController {
-    private final IVeterinarianService veterinarianService;
+    private final VeterinarianService veterinarianService;
 
     @GetMapping(GET_ALL_VETERINARIANS)
     public ResponseEntity<ApiResponse> getAllVeterinarians(){

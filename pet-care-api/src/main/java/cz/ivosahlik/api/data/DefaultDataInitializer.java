@@ -5,8 +5,7 @@ import cz.ivosahlik.api.model.Patient;
 import cz.ivosahlik.api.model.Role;
 import cz.ivosahlik.api.model.Veterinarian;
 import cz.ivosahlik.api.repository.*;
-import cz.ivosahlik.api.service.role.IRoleService;
-import cz.ivosahlik.api.service.role.RoleService;
+import cz.ivosahlik.api.service.role.RoleServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -15,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +30,7 @@ public class DefaultDataInitializer implements ApplicationListener<ApplicationRe
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AdminRepository adminRepository;
-    private final RoleService roleService;
+    private final RoleServiceImpl roleServiceImpl;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -45,7 +43,7 @@ public class DefaultDataInitializer implements ApplicationListener<ApplicationRe
     }
 
     private void createDefaultVetIfNotExits() {
-        Role vetRole = roleService.getRoleByName("ROLE_VET");
+        Role vetRole = roleServiceImpl.getRoleByName("ROLE_VET");
         IntStream.rangeClosed(1, 10).forEach(i -> {
             String defaultEmail = "vet" + i + "@gmail.com";
             if (userRepository.existsByEmail(defaultEmail)) {
@@ -68,7 +66,7 @@ public class DefaultDataInitializer implements ApplicationListener<ApplicationRe
     }
 
     private void createDefaultPatientIfNotExits() {
-        Role patientRole = roleService.getRoleByName("ROLE_PATIENT");
+        Role patientRole = roleServiceImpl.getRoleByName("ROLE_PATIENT");
         for (int i = 1; i <= 10; i++) {
             String defaultEmail = "pat" + i + "@gmail.com";
             if (userRepository.existsByEmail(defaultEmail)) {
@@ -90,7 +88,7 @@ public class DefaultDataInitializer implements ApplicationListener<ApplicationRe
     }
 
     private void createDefaultAdminIfNotExists() {
-        Role adminRole = roleService.getRoleByName("ROLE_ADMIN");
+        Role adminRole = roleServiceImpl.getRoleByName("ROLE_ADMIN");
         final String defaultAdminEmail = "admin@email.com";
         if (userRepository.findByEmail(defaultAdminEmail).isPresent()) {
             return;

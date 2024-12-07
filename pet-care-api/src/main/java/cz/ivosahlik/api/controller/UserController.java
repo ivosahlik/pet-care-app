@@ -10,8 +10,8 @@ import cz.ivosahlik.api.request.ChangePasswordRequest;
 import cz.ivosahlik.api.request.RegistrationRequest;
 import cz.ivosahlik.api.request.UserUpdateRequest;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.password.IChangePasswordService;
-import cz.ivosahlik.api.service.user.UserService;
+import cz.ivosahlik.api.service.password.ChangePasswordService;
+import cz.ivosahlik.api.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -61,15 +61,15 @@ import static org.springframework.http.ResponseEntity.status;
 @RequestMapping(USERS)
 @RestController
 public class UserController {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final EntityConverter<User, UserDto> entityConverter;
-    private final IChangePasswordService changePasswordService;
+    private final ChangePasswordService changePasswordService;
     private final ApplicationEventPublisher publisher;
 
     @PostMapping(REGISTER_USER)
     public ResponseEntity<ApiResponse> register(@RequestBody RegistrationRequest request) {
         try {
-            User theUser = userService.register(request);
+            User theUser = userServiceImpl.register(request);
             publisher.publishEvent(new RegistrationCompleteEvent(theUser));
             UserDto registeredUser = entityConverter.mapEntityToDto(theUser, UserDto.class);
             return ok(new ApiResponse(CREATE_USER_SUCCESS, registeredUser));
@@ -84,7 +84,7 @@ public class UserController {
     public ResponseEntity<ApiResponse> update(@PathVariable Long userId,
                                               @RequestBody UserUpdateRequest request) {
         try {
-            User theUser = userService.update(userId, request);
+            User theUser = userServiceImpl.update(userId, request);
             UserDto updatedUser = entityConverter.mapEntityToDto(theUser, UserDto.class);
             return ok(new ApiResponse(USER_UPDATE_SUCCESS, updatedUser));
         } catch (ResourceNotFoundException e) {
@@ -97,7 +97,7 @@ public class UserController {
     @GetMapping(GET_USER_BY_ID)
     public ResponseEntity<ApiResponse> findById(@PathVariable Long userId) {
         try {
-            UserDto userDto = userService.getUserWithDetails(userId);
+            UserDto userDto = userServiceImpl.getUserWithDetails(userId);
             return ok(new ApiResponse(USER_FOUND, userDto));
         } catch (ResourceNotFoundException e) {
             return status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
@@ -109,7 +109,7 @@ public class UserController {
     @DeleteMapping(DELETE_USER_BY_ID)
     public ResponseEntity<ApiResponse> deleteById(@PathVariable Long userId) {
         try {
-            userService.delete(userId);
+            userServiceImpl.delete(userId);
             return ok(new ApiResponse(DELETE_USER_SUCCESS, null));
         } catch (ResourceNotFoundException e) {
             return status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
@@ -120,7 +120,7 @@ public class UserController {
 
     @GetMapping(GET_ALL_USERS)
     public ResponseEntity<ApiResponse> getAllUsers() {
-        List<UserDto> theUsers = userService.getAllUsers();
+        List<UserDto> theUsers = userServiceImpl.getAllUsers();
         return status(FOUND).body(new ApiResponse(USER_FOUND, theUsers));
     }
 
@@ -141,23 +141,23 @@ public class UserController {
 
     @GetMapping(COUNT_ALL_VETS)
     public long countVeterinarians() {
-        return userService.countVeterinarians();
+        return userServiceImpl.countVeterinarians();
     }
 
     @GetMapping(COUNT_ALL_PATIENTS)
     public long countPatients() {
-        return userService.countPatients();
+        return userServiceImpl.countPatients();
     }
 
     @GetMapping(COUNT_ALL_USERS)
     public long countUsers() {
-        return userService.countAllUsers();
+        return userServiceImpl.countAllUsers();
     }
 
     @GetMapping(AGGREGATE_USERS)
     public ResponseEntity<ApiResponse> aggregateUsersByMonthAndType() {
         try {
-            Map<String, Map<String, Long>> aggregatedUsers = userService.aggregateUsersByMonthAndType();
+            Map<String, Map<String, Long>> aggregatedUsers = userServiceImpl.aggregateUsersByMonthAndType();
             return ok(new ApiResponse(RESOURCE_FOUND, aggregatedUsers));
         } catch (Exception e) {
             return status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
@@ -167,7 +167,7 @@ public class UserController {
     @GetMapping(AGGREGATE_BY_STATUS)
     public ResponseEntity<ApiResponse> getAggregatedUsersByEnabledStatus() {
         try {
-            Map<String, Map<String, Long>> aggregatedData = userService.aggregateUsersByEnabledStatusAndType();
+            Map<String, Map<String, Long>> aggregatedData = userServiceImpl.aggregateUsersByEnabledStatusAndType();
             return ok(new ApiResponse(RESOURCE_FOUND, aggregatedData));
         } catch (Exception e) {
             return status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
@@ -177,7 +177,7 @@ public class UserController {
     @PutMapping(LOCK_USER_ACCOUNT)
     public ResponseEntity<ApiResponse> lockUserAccount(@PathVariable Long userId) {
         try {
-            userService.lockUserAccount(userId);
+            userServiceImpl.lockUserAccount(userId);
             return ok(new ApiResponse(LOCKED_ACCOUNT_SUCCESS, null));
         } catch (Exception e) {
             return status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
@@ -187,7 +187,7 @@ public class UserController {
     @PutMapping(UNLOCK_USER_ACCOUNT)
     public ResponseEntity<ApiResponse> unLockUserAccount(@PathVariable Long userId) {
         try {
-            userService.unLockUserAccount(userId);
+            userServiceImpl.unLockUserAccount(userId);
             return ok(new ApiResponse(UNLOCKED_ACCOUNT_SUCCESS, null));
         } catch (Exception e) {
             return status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));

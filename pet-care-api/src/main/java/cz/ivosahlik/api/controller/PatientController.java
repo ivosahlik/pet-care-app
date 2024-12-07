@@ -2,7 +2,7 @@ package cz.ivosahlik.api.controller;
 
 import cz.ivosahlik.api.dto.UserDto;
 import cz.ivosahlik.api.response.ApiResponse;
-import cz.ivosahlik.api.service.patient.IPatientService;
+import cz.ivosahlik.api.service.patient.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequiredArgsConstructor
 @RequestMapping(PATIENTS)
 public class PatientController {
-    private final IPatientService patientService;
+    private final PatientService patientService;
 
     @GetMapping(GET_ALL_PATIENTS)
     public ResponseEntity<ApiResponse> getAllPatients() {

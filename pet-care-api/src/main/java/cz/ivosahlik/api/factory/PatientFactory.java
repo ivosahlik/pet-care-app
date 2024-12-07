@@ -1,10 +1,9 @@
 package cz.ivosahlik.api.factory;
 
 import cz.ivosahlik.api.model.Patient;
-import cz.ivosahlik.api.model.User;
 import cz.ivosahlik.api.repository.PatientRepository;
 import cz.ivosahlik.api.request.RegistrationRequest;
-import cz.ivosahlik.api.service.role.IRoleService;
+import cz.ivosahlik.api.service.role.RoleService;
 import cz.ivosahlik.api.service.user.UserAttributesMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class PatientFactory {
     private final PatientRepository patientRepository;
     private final UserAttributesMapper userAttributesMapper;
-    private final IRoleService roleService;
+    private final RoleService roleService;
 
     public Patient createPatient(RegistrationRequest request) {
         Patient patient = new Patient();

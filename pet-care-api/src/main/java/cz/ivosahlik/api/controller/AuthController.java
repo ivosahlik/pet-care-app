@@ -10,8 +10,8 @@ import cz.ivosahlik.api.response.ApiResponse;
 import cz.ivosahlik.api.response.JwtResponse;
 import cz.ivosahlik.api.security.jwt.JwtUtils;
 import cz.ivosahlik.api.security.user.UPCUserDetails;
-import cz.ivosahlik.api.service.password.PasswordResetService;
-import cz.ivosahlik.api.service.token.VerificationTokenService;
+import cz.ivosahlik.api.service.password.PasswordResetServiceImpl;
+import cz.ivosahlik.api.service.token.VerificationTokenServiceImpl;
 import cz.ivosahlik.api.utils.UrlMapping;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +60,8 @@ import static org.springframework.http.ResponseEntity.status;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
-    private final VerificationTokenService tokenService;
-    private final PasswordResetService passwordResetService;
+    private final VerificationTokenServiceImpl tokenService;
+    private final PasswordResetServiceImpl passwordResetServiceImpl;
     private final ApplicationEventPublisher publisher;
 
     @PostMapping(UrlMapping.LOGIN)
@@ -116,7 +116,7 @@ public class AuthController {
                     .body(new ApiResponse(INVALID_EMAIL, null));
         }
         try {
-            passwordResetService.requestPasswordReset(email);
+            passwordResetServiceImpl.requestPasswordReset(email);
             return ok(new ApiResponse(PASSWORD_RESET_EMAIL_SENT, null));
         } catch (ResourceNotFoundException ex) {
             return badRequest().body(new ApiResponse(ex.getMessage(), null));
@@ -132,12 +132,12 @@ public class AuthController {
         if (token == null || token.trim().isEmpty() || newPassword == null || newPassword.trim().isEmpty()) {
             return badRequest().body(new ApiResponse(MISSING_PASSWORD, null));
         }
-        Optional<User> theUser = passwordResetService.findUserByPasswordResetToken(token);
+        Optional<User> theUser = passwordResetServiceImpl.findUserByPasswordResetToken(token);
         if (theUser.isEmpty()) {
             return badRequest().body(new ApiResponse(INVALID_RESET_TOKEN, null));
         }
         User user = theUser.get();
-        String message = passwordResetService.resetPassword(newPassword, user);
+        String message = passwordResetServiceImpl.resetPassword(newPassword, user);
         return ok(new ApiResponse(message, null));
     }
 
