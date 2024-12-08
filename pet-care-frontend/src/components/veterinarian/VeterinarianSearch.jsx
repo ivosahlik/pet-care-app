@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import UseMessageAlerts from "../hooks/UseMessageAlerts";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 import AlertMessage from "../common/AlertMessage";
-import { findAvailableVeterinarians } from "./VeterinarianService";
-import { dateTimeFormatter } from "../utils/utilities";
-import { getAllSpecializations } from "./VeterinarianService";
+import {findAvailableVeterinarians, getAllSpecializations} from "./VeterinarianService";
+import {dateTimeFormatter} from "../utils/utilities";
 
-const VeterinarianSearch = ({ onSearchResult }) => {
+const VeterinarianSearch = ({onSearchResult}) => {
   const [specializations, setSpecializations] = useState([]);
   const [searchQuery, setSearchQuery] = useState({
     date: null,
@@ -17,11 +15,12 @@ const VeterinarianSearch = ({ onSearchResult }) => {
     specialization: "",
   });
   const [showDateTime, setShowDateTime] = useState(false);
-  const { errorMessage, setErrorMessage, showErrorAlert, setShowErrorAlert } =
+
+  const {errorMessage, setErrorMessage, showErrorAlert, setShowErrorAlert} =
     UseMessageAlerts();
 
   const handleInputchange = (e) => {
-    setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
+    setSearchQuery({...searchQuery, [e.target.name]: e.target.value});
   };
 
   const handleDateChange = (date) => {
@@ -42,26 +41,26 @@ const VeterinarianSearch = ({ onSearchResult }) => {
     const isChecked = e.target.checked;
     setShowDateTime(isChecked);
     if (isChecked) {
-      setSearchQuery({ ...searchQuery, date: null, time: null });
+      setSearchQuery({...searchQuery, date: null, time: null});
     }
   };
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
-    const { date, time, specialization } = searchQuery;
+    const {date, time, specialization} = searchQuery;
 
-    let searchParams = { specialization };
+    let searchParams = {specialization};
 
     if (date && time) {
-      const { formattedDate, formattedTime } = dateTimeFormatter(date, time);
+      const {formattedDate, formattedTime} = dateTimeFormatter(date, time);
       searchParams.date = formattedDate;
       searchParams.time = formattedTime;
     }
 
     try {
-      const response = await findAvailableVeterinarians(searchParams);
-      onSearchResult(response.data);
+      const {data} = await findAvailableVeterinarians(searchParams);
+      onSearchResult(data);
       setShowErrorAlert(false);
     } catch (error) {
       console.log("The search query : " + error);
@@ -171,7 +170,7 @@ const VeterinarianSearch = ({ onSearchResult }) => {
       </Form>
       <div>
         {showErrorAlert && (
-          <AlertMessage type={"danger"} message={errorMessage} />
+          <AlertMessage type={"danger"} message={errorMessage}/>
         )}
       </div>
     </section>
