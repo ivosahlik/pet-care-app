@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Col, Container, Row} from "react-bootstrap";
 import VeterinarianCard from "./VeterinarianCard";
-import { getVeterinarians } from "./VeterinarianService";
+import {getVeterinarians} from "./VeterinarianService";
 import VeterinarianSearch from "./VeterinarianSearch";
 import UseMessageAlerts from "../hooks/UseMessageAlerts";
 import NoDataAvailable from "../common/NoDataAvailable";

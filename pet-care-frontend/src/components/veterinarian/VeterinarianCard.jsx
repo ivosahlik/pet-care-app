@@ -1,6 +1,6 @@
 import React from "react";
-import { Accordion, Col, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {Accordion, Card, Col} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import UserImage from "../common/UserImage";
 
 import RatingStars from "../rating/RatingStars";

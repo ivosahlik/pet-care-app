@@ -1,4 +1,4 @@
-import { api } from "../utils/api";
+import {api} from "../utils/api";
 
 export async function getVeterinarians() {
   try {
