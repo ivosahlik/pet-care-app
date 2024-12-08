@@ -33,7 +33,6 @@ const AdminOverview = () => {
         console.error("Error fetching counts:", error);
       }
     };
-
     fetchCounts();
   }, []);
 

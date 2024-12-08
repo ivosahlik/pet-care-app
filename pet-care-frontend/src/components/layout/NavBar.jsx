@@ -39,7 +39,6 @@ const NavBar = () => {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <NavDropdown.Divider />
                   <NavDropdown.Item
                     to={`/user-dashboard/${userId}/my-dashboard`}
                     as={Link}>

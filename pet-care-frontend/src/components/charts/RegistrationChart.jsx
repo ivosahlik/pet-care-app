@@ -31,6 +31,7 @@ const RegistrationChart = () => {
               name: month,
               Veterinarians: counts.VET || 0,
               Patients: counts.PATIENT || 0,
+              Admins: counts.ADMIN || 0,
             };
           }
         );
@@ -57,6 +58,7 @@ const RegistrationChart = () => {
               <Legend />
               <Bar dataKey={"Veterinarians"} fill='#2f6a32' />
               <Bar dataKey={"Patients"} fill='#d26161' />
+              <Bar dataKey={"Admins"} fill='#aab5b0' />
             </BarChart>
           </ResponsiveContainer>
         </React.Fragment>

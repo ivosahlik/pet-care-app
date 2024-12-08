@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Container, Row, Card, Col } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Link, useParams} from "react-router-dom";
+import {Card, Col, Container, Row} from "react-bootstrap";
 import UserImage from "../common/UserImage";
-import { BsFillArrowRightSquareFill } from "react-icons/bs";
+import {BsFillArrowRightSquareFill} from "react-icons/bs";
 import Review from "../review/Review";
 import UseMessageAlerts from "../hooks/UseMessageAlerts";
-import { getUserById } from "../user/UserService";
+import {getUserById} from "../user/UserService";
 import AlertMessage from "../common/AlertMessage";
 import RatingStars from "../rating/RatingStars";
 import Rating from "../rating/Rating";
@@ -13,13 +13,13 @@ import Paginator from "../common/Paginator";
 import LoadSpinner from "../common/LoadSpinner";
 
 const Veterinarian = () => {
+  const {vetId} = useParams();
   const [vet, setVet] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { vetId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [reviewPerPage] = useState(2);
 
-  const { errorMessage, showErrorAlert, setErrorMessage, setShowErrorAlert } =
+  const {errorMessage, showErrorAlert, setErrorMessage, setShowErrorAlert} =
     UseMessageAlerts();
 
   const getUser = async () => {
@@ -28,9 +28,9 @@ const Veterinarian = () => {
       const result = await getUserById(vetId);
       setVet(result.data);
       setTimeout(() => {
-         setIsLoading(false);
+        setIsLoading(false);
       }, 100)
-     
+
     } catch (error) {
       setErrorMessage(error.response.data.message);
       setShowErrorAlert(true);
@@ -46,21 +46,21 @@ const Veterinarian = () => {
   const indexOfLastReview = currentPage * reviewPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewPerPage;
   const currentReviews =
-    vetReviews.slice(indexOfFirstReview, indexOfLastReview) || []; 
-  
-    if (isLoading) {
-      return (
-        <div>
-          <LoadSpinner />
-        </div>
-      );
-    }
-  
+    vetReviews.slice(indexOfFirstReview, indexOfLastReview) || [];
+
+  if (isLoading) {
+    return (
+      <div>
+        <LoadSpinner/>
+      </div>
+    );
+  }
+
 
   return (
     <Container className='d-flex justify-content-center align-items-center mt-5'>
       {showErrorAlert && (
-        <AlertMessage type={"danger"} message={errorMessage} />
+        <AlertMessage type={"danger"} message={errorMessage}/>
       )}
       {vet && (
         <Card className='review-card mt-2'>
@@ -74,7 +74,7 @@ const Veterinarian = () => {
             </Col>
             <Col>
               <Link to={"/doctors"}>
-                <BsFillArrowRightSquareFill /> back to veterinarians
+                <BsFillArrowRightSquareFill/> back to veterinarians
               </Link>
             </Col>
           </Row>
@@ -91,7 +91,7 @@ const Veterinarian = () => {
                   ? Number(vet.averageRating.toFixed(1))
                   : "0.0"}
                 ) stars
-                <RatingStars rating={vet.averageRating} /> rated by (
+                <RatingStars rating={vet.averageRating}/> rated by (
                 {vet.totalReviewers || 0}{" "}
                 {vet.totalReviewers === 1 ? "person" : "people"}){" "}
               </Card.Text>
@@ -101,7 +101,7 @@ const Veterinarian = () => {
               className='link'>
               Book appointment
             </Link>
-            <hr />
+            <hr/>
 
             <p className='about'>
               About Dr. {vet.firstName} {vet.lastName}{" "}
@@ -114,10 +114,10 @@ const Veterinarian = () => {
               similique accusantium nemo autem. Veritatis obcaecati tenetur iure
               corporis!
             </p>
-            <hr />
-            <Rating veterinarianId={vet.id} onReviewSubmit={null} />
+            <hr/>
+            <Rating veterinarianId={vet.id} onReviewSubmit={null}/>
             <h4 className='text-center mb-4'>Reviews</h4>
-            <hr />
+            <hr/>
 
             {/* Render paginated reviews */}
             {currentReviews && currentReviews.length > 0 ? (
